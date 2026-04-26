@@ -1,0 +1,39 @@
+--(A) Temperatura promedio por día 
+SELECT
+   date(fecha) AS fecha_dia,
+   ROUND(AVG(temperatura_c), 2) AS temperatura_promedio
+FROM clima
+   GROUP BY date(fecha)
+   ORDER BY temperatura_promedio DESC;
+
+
+--(B) Horas con precipitación 
+SELECT 
+    fecha,
+    precipitacion_mm
+FROM clima 
+	WHERE precipitacion_mm > 0 
+	ORDER BY fecha;
+
+--(C) Día con mayor variación térmica
+SELECT 
+    date(fecha) AS dia,
+    MIN(temperatura_c) AS minima_temperatura,
+    MAX(temperatura_c) AS maxima_temperatura,
+    (MAX(temperatura_c) - MIN(temperatura_c)) AS variacion_termica
+FROM clima
+	GROUP BY date(fecha)
+	ORDER BY variacion_termica DESC
+	LIMIT 1;
+
+---(D) Resumen diario
+SELECT 
+    date(fecha) AS dia,
+    MIN(temperatura_c) AS minima_temperatura,
+    MAX(temperatura_c) AS maxima_temperatura,
+    AVG(temperatura_c) AS temperatura_promedio,
+    SUM(precipitacion_mm) AS precipitacion_total
+FROM clima
+GROUP BY date(fecha)
+ORDER BY dia;
+
